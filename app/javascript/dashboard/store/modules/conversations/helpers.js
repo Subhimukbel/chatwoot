@@ -81,7 +81,8 @@ export const applyRoleFilter = (
   // the backend handles this by checking the custom_role_id at the user model
   // here however, the `getUserRole` returns "custom_role" if the id is present,
   // so we can check the role === "agent" directly
-  if (['administrator', 'agent'].includes(role)) {
+  // Include manager role which has conversation_manage permissions
+  if (['administrator', 'agent', 'manager'].includes(role)) {
     return true;
   }
 

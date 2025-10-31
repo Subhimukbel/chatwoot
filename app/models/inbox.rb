@@ -154,7 +154,7 @@ class Inbox < ApplicationRecord
   end
 
   def assignable_agents
-    (account.users.where(id: members.select(:user_id)) + account.administrators).uniq
+    (account.users.where(id: members.select(:user_id)) + account.managers_and_administrators).uniq
   end
 
   def active_bot?

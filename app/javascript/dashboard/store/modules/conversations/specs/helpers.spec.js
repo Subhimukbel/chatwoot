@@ -90,6 +90,38 @@ describe('Conversation Helpers', () => {
       ).toBe(true);
     });
 
+    // Test for manager role
+    it('always returns true for manager role regardless of permissions', () => {
+      const role = 'manager';
+      const permissions = [];
+      const currentUserId = 1;
+
+      expect(
+        applyRoleFilter(
+          conversationWithAssignee,
+          role,
+          permissions,
+          currentUserId
+        )
+      ).toBe(true);
+      expect(
+        applyRoleFilter(
+          conversationWithDifferentAssignee,
+          role,
+          permissions,
+          currentUserId
+        )
+      ).toBe(true);
+      expect(
+        applyRoleFilter(
+          conversationWithoutAssignee,
+          role,
+          permissions,
+          currentUserId
+        )
+      ).toBe(true);
+    });
+
     // Test for custom role with 'conversation_manage' permission
     it('returns true for any user with conversation_manage permission', () => {
       const role = 'custom_role';

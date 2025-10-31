@@ -34,9 +34,13 @@ export default {
         permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
       },
       redirect: to => {
+        const currentRole = store.getters.getCurrentRole;
+        const customRoleId = store.getters.getCurrentCustomRoleId;
+
+        // Allow administrator and manager roles to access general settings
         if (
-          store.getters.getCurrentRole === 'administrator' &&
-          store.getters.getCurrentCustomRoleId === null
+          ['administrator', 'manager'].includes(currentRole) &&
+          customRoleId === null
         ) {
           return { name: 'general_settings_index', params: to.params };
         }

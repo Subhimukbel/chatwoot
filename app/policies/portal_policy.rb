@@ -4,7 +4,7 @@ class PortalPolicy < ApplicationPolicy
   end
 
   def update?
-    @account_user.administrator?
+    @account_user.administrator? || @account_user.manager?
   end
 
   def show?
@@ -12,23 +12,23 @@ class PortalPolicy < ApplicationPolicy
   end
 
   def edit?
-    @account_user.administrator?
+    @account_user.administrator? || @account_user.manager?
   end
 
   def create?
-    @account_user.administrator?
+    @account_user.administrator? || @account_user.manager?
   end
 
   def destroy?
-    @account_user.administrator?
+    @account_user.administrator? || @account_user.manager?
   end
 
   def logo?
-    @account_user.administrator?
+    @account_user.administrator? || @account_user.manager?
   end
 
   def send_instructions?
-    @account_user.administrator?
+    @account_user.administrator? || @account_user.manager?
   end
 
   def ssl_status?

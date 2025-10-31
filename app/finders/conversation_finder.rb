@@ -32,7 +32,8 @@ class ConversationFinder
   def initialize(current_user, params)
     @current_user = current_user
     @current_account = current_user.account
-    @is_admin = current_account.account_users.find_by(user_id: current_user.id)&.administrator?
+    account_user = current_account.account_users.find_by(user_id: current_user.id)
+    @is_admin = account_user&.administrator? || account_user&.manager?
     @params = params
   end
 

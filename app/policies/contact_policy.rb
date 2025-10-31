@@ -8,11 +8,11 @@ class ContactPolicy < ApplicationPolicy
   end
 
   def import?
-    @account_user.administrator?
+    @account_user.administrator? || @account_user.can?('contact_manage')
   end
 
   def export?
-    @account_user.administrator?
+    @account_user.administrator? || @account_user.can?('contact_manage')
   end
 
   def search?
@@ -48,6 +48,6 @@ class ContactPolicy < ApplicationPolicy
   end
 
   def destroy?
-    @account_user.administrator?
+    @account_user.administrator? || @account_user.can?('contact_manage')
   end
 end

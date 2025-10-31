@@ -39,15 +39,15 @@ class InboxPolicy < ApplicationPolicy
   end
 
   def create?
-    @account_user.administrator?
+    @account_user.administrator? || @account_user.can?('inbox_create')
   end
 
   def update?
-    @account_user.administrator?
+    @account_user.administrator? || @account_user.can?('inbox_manage')
   end
 
   def destroy?
-    @account_user.administrator?
+    @account_user.administrator? || @account_user.can?('inbox_manage')
   end
 
   def set_agent_bot?

@@ -2,7 +2,6 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useRouter } from 'vue-router';
-import { useAdmin } from 'dashboard/composables/useAdmin';
 import {
   ICON_ACCOUNT_SETTINGS,
   ICON_AGENT_REPORTS,
@@ -21,6 +20,7 @@ import {
   ICON_CONVERSATION_REPORTS,
 } from 'dashboard/helper/commandbar/icons';
 import { frontendURL } from 'dashboard/helper/URLHelper';
+import { getUserRole } from 'dashboard/helper/permissionsHelper';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const GO_TO_COMMANDS = [
@@ -178,7 +178,6 @@ const GO_TO_COMMANDS = [
 export function useGoToCommandHotKeys() {
   const { t } = useI18n();
   const router = useRouter();
-  const { isAdmin } = useAdmin();
 
   const currentAccountId = useMapGetter('getCurrentAccountId');
   const isFeatureEnabledOnAccount = useMapGetter(
@@ -200,7 +199,12 @@ export function useGoToCommandHotKeys() {
       return true;
     });
 
-    if (!isAdmin.value) {
+    // Get current user role for more precise filtering
+    const currentUser = useMapGetter('getCurrentUser');
+    const currentRole = getUserRole(currentUser.value, currentAccountId.value);
+
+    // Filter commands based on user role - include manager in admin-level access
+    if (!['administrator', 'manager'].includes(currentRole)) {
       commands = commands.filter(command => command.role.includes('agent'));
     }
 

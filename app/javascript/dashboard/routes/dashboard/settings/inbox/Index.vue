@@ -14,6 +14,7 @@ import {
 import ChannelName from './components/ChannelName.vue';
 import ChannelIcon from 'next/icon/ChannelIcon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import Policy from 'dashboard/components/policy.vue';
 
 const getters = useStoreGetters();
 const store = useStore();
@@ -86,12 +87,14 @@ const openDelete = inbox => {
         feature-name="inboxes"
       >
         <template #actions>
-          <router-link v-if="isAdmin" :to="{ name: 'settings_inbox_new' }">
-            <Button
-              icon="i-lucide-circle-plus"
-              :label="$t('SETTINGS.INBOXES.NEW_INBOX')"
-            />
-          </router-link>
+          <Policy :permissions="['administrator', 'inbox_create']">
+            <router-link :to="{ name: 'settings_inbox_new' }">
+              <Button
+                icon="i-lucide-circle-plus"
+                :label="$t('SETTINGS.INBOXES.NEW_INBOX')"
+              />
+            </router-link>
+          </Policy>
         </template>
       </BaseSettingsHeader>
     </template>
